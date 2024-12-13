@@ -1,0 +1,15 @@
+.container {
+  margin: 0 auto;
+  max-width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    height: auto;
+    padding: 2rem;
+  }
+}
