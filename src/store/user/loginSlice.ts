@@ -1,8 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import apiConnection from "../../services/apiCon";
 
 // Define types for the state
 export type AuthState = {
-  user: { uuid: string; name: string; email: string } | null;
+  user: {
+    uuid: string;
+    givenName: string;
+    familyName: string;
+    email: string;
+  } | null;
   token: string | null;
   isLoading: boolean;
   error: string | null;
@@ -23,22 +29,26 @@ export const loginUser = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const response = await fetch("/api/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: { "Content-Type": "application/json" },
+      const response = await apiConnection.post("/auth", {
+        email,
+        password,
       });
-      const data = await response.json();
-      if (response.ok) {
-        return data;
+      if (response.data) {
+        return response.data;
       } else {
-        return rejectWithValue(data.error);
+        return rejectWithValue(response.data.error);
       }
     } catch (error) {
       return rejectWithValue("An unknown error occurred");
     }
   }
 );
+
+// axios.get('/protected-resource', {
+//   headers: {
+//     Authorization: `Bearer ${token}`,
+//   },
+// });
 
 const authSlice = createSlice({
   name: "auth",

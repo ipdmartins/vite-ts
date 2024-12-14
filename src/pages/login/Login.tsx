@@ -1,14 +1,17 @@
+import { useNavigate } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
+import { useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Formik } from "formik";
-import cross from "../../assets/cross_pharmacy.png";
-import styles from "./Sample.module.scss";
-import { useDispatch } from "react-redux";
+import emailValidator from "../../components/emailValidator";
 import { loginUser } from "../../store/user/loginSlice";
+import cross from "../../assets/cross_pharmacy.png";
 import { AppDispatch } from "../../store/store";
+import styles from "./Sample.module.scss";
+import ForgotPass from "./ForgotPass";
 
 interface FormValues {
   email: string;
@@ -16,10 +19,19 @@ interface FormValues {
 }
 
 export default function Login() {
+  const [showForgotPass, setShowForgotPass] = useState(false);
+  const [forgotPassModal, setForgotPassModal] = useState(true);
+
+  const navigate = useNavigate();
+
   const dispatch = useDispatch<AppDispatch>();
   const initialValues: FormValues = {
     email: "",
     password: "",
+  };
+
+  const handleShowForgotPass = () => {
+    setShowForgotPass(!showForgotPass);
   };
 
   return (
@@ -38,13 +50,14 @@ export default function Login() {
             initialValues={initialValues}
             validate={(values) => {
               const errors: Partial<FormValues> = {};
-              if (!values.email) {
-                errors.email = "Le courriel est requis";
-              } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-              ) {
-                errors.email = "Adresse courriel invalide";
-              }
+              errors.email = emailValidator(values.email);
+              // if (!values.email) {
+              //   errors.email = "Le courriel est requis";
+              // } else if (
+              //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              // ) {
+              //   errors.email = "Adresse courriel invalide";
+              // }
               if (!values.password) {
                 errors.password = "Le mot de passe est requis";
               } else if (values.password.length < 6) {
@@ -53,8 +66,9 @@ export default function Login() {
               }
               return errors;
             }}
-            onSubmit={(values, { setSubmitting }) => {
-              dispatch(loginUser(values));
+            onSubmit={async (values, { setSubmitting }) => {
+              await dispatch(loginUser(values)).unwrap();
+              navigate("/home");
               setSubmitting(false);
             }}
           >
@@ -113,14 +127,26 @@ export default function Login() {
             )}
           </Formik>
           <div className="text-end">
-            <Link className="text-muted" to="/event">
+            <Button
+              onClick={() => {
+                setForgotPassModal(true);
+                setShowForgotPass(true);
+              }}
+              variant="link"
+            >
               J'ai oublié mon mot de passe
-            </Link>
+            </Button>
           </div>
           <div className="text-end">
-            <Link className="text-muted" to="/event">
+            <Button
+              variant="link"
+              onClick={() => {
+                setForgotPassModal(false);
+                setShowForgotPass(true);
+              }}
+            >
               Je n'ai jamais reçu mon courriel d'activation
-            </Link>
+            </Button>
           </div>
 
           <hr />
@@ -131,6 +157,11 @@ export default function Login() {
           </Stack>
         </Card.Body>
       </Card>
+      <ForgotPass
+        show={showForgotPass}
+        forgotPass={forgotPassModal}
+        handleClose={handleShowForgotPass}
+      />
     </div>
   );
 }
