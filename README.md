@@ -1,8 +1,10 @@
 # React + TypeScript + Vite
 
-Clone it: git clone https://github.com/ipdmartins/vite-ts.git
-Intall packages: npm install
-Run it: npm run dev
+`Clone it`: git clone https://github.com/ipdmartins/vite-ts.git
+
+`Intall packages`: npm install
+
+`Run it`: npm run dev
 
 ## Directories structure
 
