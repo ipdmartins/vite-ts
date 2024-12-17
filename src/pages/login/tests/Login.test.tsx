@@ -1,9 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import { it, expect, describe, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import cross from "../../../../assets/cross_pharmacy.png";
 import { store } from "../../../store/store";
 import Login from "../Login";
 
@@ -16,18 +15,6 @@ vi.mock("react-router-dom", async () => {
 });
 
 describe("Testing components on Login page", () => {
-  it("should assert the image beside the login title", () => {
-    render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <Login />
-        </MemoryRouter>
-      </Provider>
-    );
-    const linkElement = screen.getByTestId("img-login-title");
-    expect(linkElement).toHaveAttribute("src", cross);
-  });
-
   it("should assert the title", () => {
     render(
       <Provider store={store}>

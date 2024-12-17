@@ -1,8 +1,29 @@
-import { Row, Col, Navbar, Nav, Container, Card } from "react-bootstrap";
+import Container from "react-bootstrap/Container";
+import Navbar from "react-bootstrap/Navbar";
+import Card from "react-bootstrap/Card";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Nav from "react-bootstrap/Nav";
+import { useSelector, useDispatch } from "react-redux";
 import { RiAccountBox2Fill } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
+import { AppDispatch, RootState } from "../../store/store";
+import { logout } from "../../store/user/loginSlice";
 import styles from "./Home.module.scss";
 
 export default function Home() {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.auth);
+
+  const handleLoginLogout = () => {
+    if (user?.uuid) {
+      dispatch(logout());
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
     <div>
       <Navbar fixed="top" className={`${styles.navBarMainPage} mb-5`}>
@@ -22,9 +43,17 @@ export default function Home() {
             </Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link className={styles.navItemMainPage} href="/login">
+            <Nav.Link
+              className={styles.navItemMainPage}
+              onClick={handleLoginLogout}
+            >
+              {user?.givenName && (
+                <span className="me-3">Bonjour {user.givenName}</span>
+              )}
               <RiAccountBox2Fill className="me-2" size={25} />
-              <span className="me-3">Connexion</span>
+              <span className="me-3">
+                {user?.uuid ? "Deconnexion" : "Connexion"}
+              </span>
             </Nav.Link>
           </Nav>
         </Container>
@@ -77,11 +106,10 @@ export default function Home() {
           <Col>
             <Card className={styles.cardBodyHome}>
               <Card.Body className={styles.cardBodyHomeThree}>
-                <Card.Title>Services offerts par votre pharmacien</Card.Title>
+                <Card.Title>Services offerts</Card.Title>
                 <Card.Text>
                   Cessation tabagique, infection urinaire, rhinite allergique et
-                  plus encore! Découvrez plus de 90 services de soins et de
-                  suivi en santé offerts.
+                  plus encore! Découvrez plus de 90 services.
                 </Card.Text>
                 <Card className="p-4 mt-4">
                   <span className={styles.insideCardBodyHomeThreeFirst}>

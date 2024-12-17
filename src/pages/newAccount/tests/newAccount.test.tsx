@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import { it, expect, describe, vi } from "vitest";
-import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
 import { store } from "../../../store/store";
+import { Provider } from "react-redux";
 import NewAccount from "..";
 
 vi.mock("react-router-dom", async () => {

@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import apiConnection from "../../services/apiCon";
 
-// Define types for the state
 export type AuthState = {
   user: {
     uuid: string;
@@ -21,7 +20,6 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Define async action (e.g., login user)
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (

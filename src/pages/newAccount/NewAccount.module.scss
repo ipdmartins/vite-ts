@@ -1,16 +1,33 @@
 .container {
   margin: 0 auto;
-  max-width: 55%;
+  width: 100%;
+  max-width: 1200px;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  padding: 1rem;
+  padding: 2rem;
   border: none;
+
+  .cardStyling {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  @media (max-width: 1024px) {
+    max-width: 90%;
+    padding: 1.5rem;
+
+    .cardStyling {
+      max-width: 600px;
+    }
+  }
 
   @media (max-width: 768px) {
     max-width: 100%;
-    height: auto;
-    padding: 2rem;
+    padding: 1rem;
+
+    .cardStyling {
+      max-width: 100%;
+    }
   }
 }

@@ -1,14 +1,10 @@
-import React from "react";
-// import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
-
 import persistor, { store } from "./store/store";
+import NewAccount from "./pages/newAccount";
 import Login from "./pages/login/Login";
 import Home from "./pages/home";
-import NewAccount from "./pages/newAccount";
 
 function App() {
   return (

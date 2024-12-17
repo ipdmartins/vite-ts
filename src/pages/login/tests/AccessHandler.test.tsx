@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
 import { it, expect, describe, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "../../../store/store";
 import AccessHandler from "../AccessHandler";

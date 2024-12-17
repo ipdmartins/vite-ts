@@ -13,7 +13,6 @@ import storage from "redux-persist/lib/storage";
 import { authReducer, AuthState } from "./user/loginSlice";
 import { PersistPartial } from "redux-persist/es/persistReducer";
 
-// Persist configuration for redux-persist
 const persistConfig = {
   key: "auth", // The key to store the persisted state in localStorage
   storage, // Storage provider (default is localStorage)
