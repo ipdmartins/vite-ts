@@ -6,8 +6,9 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 
 import persistor, { store } from "./store/store";
-import Event from "./pages/events";
 import Login from "./pages/login/Login";
+import Home from "./pages/home";
+import NewAccount from "./pages/newAccount";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
       <PersistGate loading={null} persistor={persistor}>
         <Router>
           <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="/home" element={<Event />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/newaccount" element={<NewAccount />} />
           </Routes>
         </Router>
       </PersistGate>

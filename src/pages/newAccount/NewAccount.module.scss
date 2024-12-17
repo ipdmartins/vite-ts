@@ -1,0 +1,16 @@
+.container {
+  margin: 0 auto;
+  max-width: 55%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+  border: none;
+
+  @media (max-width: 768px) {
+    max-width: 100%;
+    height: auto;
+    padding: 2rem;
+  }
+}

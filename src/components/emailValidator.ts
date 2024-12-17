@@ -3,8 +3,6 @@ const emailValidator = (email: string) => {
     return "Le courriel est requis";
   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
     return "Adresse courriel invalide";
-  } else {
-    return "";
   }
 };
 

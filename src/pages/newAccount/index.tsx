@@ -1,24 +1,21 @@
-import { useNavigate } from "react-router-dom";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
-import { useDispatch } from "react-redux";
-import Card from "react-bootstrap/Card";
-import Form from "react-bootstrap/Form";
-import { useState } from "react";
 import { Formik } from "formik";
-import emailValidator from "../../components/emailValidator";
-import { loginUser } from "../../store/user/loginSlice";
-import cross from "../../assets/cross_pharmacy.png";
+import { useState } from "react";
+import { Button, Card, Form, Stack } from "react-bootstrap";
+import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../store/store";
-import AccessHandler from "./AccessHandler";
-import styles from "./Login.module.scss";
+import { useNavigate } from "react-router-dom";
+import emailValidator from "../../components/emailValidator";
+import styles from "./NewAccount.module.scss";
 
 interface FormValues {
+  firstName: string;
+  familyName: string;
+  phone: string;
   email: string;
   password: string;
 }
 
-export default function Login() {
+export default function NewAccount() {
   const [showForgotPass, setShowForgotPass] = useState(false);
   const [forgotPassModal, setForgotPassModal] = useState(true);
   const initialValues: FormValues = {
@@ -29,8 +26,8 @@ export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const handleShowForgotPass = () => {
-    setShowForgotPass(!showForgotPass);
+  const handleButtonClick = () => {
+    navigate("/newaccount");
   };
 
   return (
@@ -38,20 +35,10 @@ export default function Login() {
       <Card>
         <Card.Body>
           <Card.Title className="d-flex">
-            <Card.Img
-              data-testid="img-login-title"
-              src={cross}
-              style={{ width: "25px", height: "25px" }}
-            />
-            <Card.Text data-testid="login-title" className="ms-1 mt-1">
-              Pharmacie
+            <Card.Text data-testid="newaccount-title" className="ms-1 mt-1">
+              Identification
             </Card.Text>
           </Card.Title>
-          <h5 className="mt-3 mb-3 text-center">
-            <strong data-testid="login-subtitle-msg">
-              Bienvenue dans notre famille
-            </strong>
-          </h5>
           <Formik
             initialValues={initialValues}
             validate={(values) => {
@@ -68,7 +55,6 @@ export default function Login() {
               return errors;
             }}
             onSubmit={async (values, { setSubmitting }) => {
-              await dispatch(loginUser(values)).unwrap();
               navigate("/home");
               setSubmitting(false);
             }}
@@ -83,14 +69,62 @@ export default function Login() {
               isSubmitting,
             }) => (
               <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="formFirstName">
+                  <Form.Label data-testid="newaccount-FirstName-label">
+                    Prénom
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    data-testid="newaccount-FirstName-input"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.firstName}
+                    isInvalid={touched.firstName && !!errors.firstName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.firstName}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="formFamilyName" className="mt-3">
+                  <Form.Label data-testid="newaccount-familyName-label">
+                    Nom
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    data-testid="newaccount-familytName-input"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.familyName}
+                    isInvalid={touched.familyName && !!errors.familyName}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.familyName}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="phoneNumber" className="mt-3">
+                  <Form.Label data-testid="newaccount-phone-label">
+                    Numéro de téléphone
+                  </Form.Label>
+                  <Form.Control
+                    type="text"
+                    data-testid="newaccount-phone-input"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.phone}
+                    isInvalid={touched.phone && !!errors.phone}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.phone}
+                  </Form.Control.Feedback>
+                </Form.Group>
                 <Form.Group controlId="formEmail">
-                  <Form.Label data-testid="login-email-label">
+                  <Form.Label data-testid="newaccount-email-label">
                     Courriel
                   </Form.Label>
                   <Form.Control
                     type="email"
                     name="email"
-                    data-testid="login-input-email"
+                    data-testid="newaccount-email-input"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.email}
@@ -101,13 +135,31 @@ export default function Login() {
                   </Form.Control.Feedback>
                 </Form.Group>
                 <Form.Group controlId="formPassword" className="mt-3">
-                  <Form.Label data-testid="login-label-password">
+                  <Form.Label data-testid="newaccount-label-password">
                     Mot de passe
                   </Form.Label>
                   <Form.Control
                     type="password"
                     name="password"
-                    data-testid="login-input-password"
+                    data-testid="newaccount-password-input"
+                    placeholder="minimum 6 caractères"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    isInvalid={touched.password && !!errors.password}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    {errors.password}
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group controlId="formPassword" className="mt-3">
+                  <Form.Label data-testid="newaccount-label-password-confirm">
+                    Confirmer le mot de passe
+                  </Form.Label>
+                  <Form.Control
+                    type="password"
+                    name="password"
+                    data-testid="newaccount-password-confirm-input"
                     placeholder="minimum 6 caractères"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -158,24 +210,8 @@ export default function Login() {
               Je n'ai jamais reçu mon courriel d'activation
             </Button>
           </div>
-          <hr />
-          <Stack>
-            <Button
-              data-testid="login-create-account"
-              className="mt-3"
-              variant="secondary"
-              onClick={() => navigate("/newaccount")}
-            >
-              Créer un compte
-            </Button>
-          </Stack>
         </Card.Body>
       </Card>
-      <AccessHandler
-        show={showForgotPass}
-        forgotPass={forgotPassModal}
-        handleClose={handleShowForgotPass}
-      />
     </div>
   );
 }

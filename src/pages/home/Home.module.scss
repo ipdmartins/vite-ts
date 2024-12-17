@@ -1,0 +1,79 @@
+.navBarMainPage {
+  background-color: #002c50;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 50px;
+}
+
+.navItemMainPage {
+  color: #ffff !important;
+}
+
+.bodyHomePage {
+  padding-top: 100px;
+  padding: 2rem;
+}
+
+.cardBodyHome {
+  min-height: 400px;
+
+  .cardBodyHomeOne {
+    background-color: #eb162d;
+    padding: 30px;
+    color: #ffff;
+
+    .insideCardBodyHomeOneFirst {
+      color: #eb162d;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .insideCardBodyHomeOneSecond {
+      background-color: #bb0303;
+      border: none;
+      color: #ffff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+  .cardBodyHomeTwo {
+    background-color: #78cd0a;
+    padding: 30px;
+    color: #ffff;
+
+    .insideCardBodyHomeTwoFirst {
+      color: #78cd0a;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .insideCardBodyHomeTwoSecond {
+      background-color: #57a400;
+      border: none;
+      color: #ffff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+  .cardBodyHomeThree {
+    background-color: #1163b1;
+    padding: 30px;
+    color: #ffff;
+
+    .insideCardBodyHomeThreeFirst {
+      color: #1163b1;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .insideCardBodyHomeThreeSecond {
+      background-color: #0422d1;
+      border: none;
+      color: #ffff;
+      font-weight: bold;
+      font-size: 18px;
+    }
+  }
+}
