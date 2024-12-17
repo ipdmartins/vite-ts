@@ -16,6 +16,21 @@ export default function Home() {
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
 
+  function anagram(word1: string, word2: string) {
+    if (word1.length !== word2.length) {
+      return false;
+    }
+
+    if (word1 === word2) {
+      return true;
+    }
+
+    let ordered1 = word1.split("").sort().join("");
+    let ordered2 = word2.split("").sort().join("");
+
+    return ordered1 === ordered2;
+  }
+
   const handleLoginLogout = () => {
     if (user?.uuid) {
       dispatch(logout());
