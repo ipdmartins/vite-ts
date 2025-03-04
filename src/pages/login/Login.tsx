@@ -4,7 +4,7 @@ import Stack from "react-bootstrap/Stack";
 import { useDispatch } from "react-redux";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Formik } from "formik";
 import emailValidator from "../../components/emailValidator";
 import { loginUser } from "../../store/user/loginSlice";
@@ -12,6 +12,7 @@ import cross from "../../assets/cross_pharmacy.png";
 import { AppDispatch } from "../../store/store";
 import AccessHandler from "./AccessHandler";
 import styles from "./Login.module.scss";
+import { cityPaths } from "./data";
 
 interface FormValues {
   email: string;
@@ -28,6 +29,97 @@ export default function Login() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  function handleCities(origin: string, destination: string) {
+    let newdata = cityPaths.split("\n");
+    newdata = cleanBlankSpaceArray(newdata);
+
+    let nomeA = "";
+    newdata.forEach((element) => {
+      if (element.includes(origin)) {
+        nomeA = element;
+        if (nomeA.includes(destination)) {
+          let result = nomeA.split(":");
+          result = result[1].trim().split(" ");
+          const finalResult = parseInt(result[0]);
+          console.log(finalResult);
+
+          return finalResult;
+        }
+      }
+    });
+  }
+
+  function handleCitiesB(origin: string, destination: string) {
+    let newdata = cityPaths.split("\n");
+    newdata = cleanBlankSpaceArray(newdata);
+
+    const newArrayA = [""];
+    const newArrayB = [""];
+
+    newdata.forEach((element) => {
+      if (element.includes(origin)) {
+        newArrayA.push(element);
+      }
+
+      if (element.includes(destination)) {
+        newArrayB.push(element);
+      }
+    });
+    return {
+      newArrayA,
+      newArrayB,
+    };
+  }
+
+  function cleanBlankSpaceArray(list: string[]) {
+    const newdata = list.filter((item) => {
+      return /\S/.test(item);
+    });
+    return newdata;
+  }
+
+  function arraySpliter(list: string[]) {
+    const newList = list.map((item) => {
+      return item.split(/[>:]/);
+    });
+    return newList;
+  }
+
+  function wordToMiles(list: string) {
+    const result = list.trim().split(" ");
+    const finalResult = parseInt(result[0]);
+
+    return finalResult;
+  }
+
+  useEffect(() => {
+    const resp = handleCitiesB("Québec", "Montréal");
+    const newArrayA = cleanBlankSpaceArray(resp.newArrayA);
+    const newArrayB = cleanBlankSpaceArray(resp.newArrayB);
+
+    const respA = arraySpliter(newArrayA);
+
+    const milesQuebecMontreal = wordToMiles(respA[0][2]);
+
+    const respB = arraySpliter(newArrayB);
+
+    if (respB[1][0].trim().includes(respA[1][1].trim())) {
+      const milesQuebecTroisRiviere = wordToMiles(respA[1][2]);
+      const milesTroisRiviereMontreal = wordToMiles(respB[1][2]);
+
+      if (
+        milesQuebecMontreal <
+        milesQuebecTroisRiviere + milesTroisRiviereMontreal
+      ) {
+        console.log(milesQuebecMontreal);
+      } else {
+        console.log(milesQuebecTroisRiviere + milesTroisRiviereMontreal);
+      }
+    }
+
+    handleCities("Québec", "Montréal");
+  }, []);
 
   const handleShowForgotPass = () => {
     setShowForgotPass(!showForgotPass);

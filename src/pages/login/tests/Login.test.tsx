@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { it, expect, describe, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -80,16 +81,15 @@ describe("Testing components on Login page", () => {
     const pass = screen.getByTestId("login-input-password");
     const connectBtn = screen.getByTestId("login-connect-btn");
 
-    fireEvent.change(email, { target: { value: "teste@email.com" } });
-    fireEvent.change(pass, { target: { value: "pass123" } });
-    fireEvent.click(connectBtn);
+    const user = userEvent.setup();
+    await waitFor(() => user.type(email, "teste@email.com"));
+    await waitFor(() => user.type(pass, "pass123"));
+    await waitFor(() => user.click(connectBtn));
 
-    await waitFor(() => {
-      expect(email).toBeInTheDocument();
-      expect(email).toHaveValue("teste@email.com");
-      expect(pass).toBeInTheDocument();
-      expect(pass).toHaveValue("pass123");
-    });
+    expect(email).toBeInTheDocument();
+    expect(email).toHaveValue("teste@email.com");
+    expect(pass).toBeInTheDocument();
+    expect(pass).toHaveValue("pass123");
   });
 
   it("should assert invalid email", async () => {
